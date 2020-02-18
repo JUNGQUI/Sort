@@ -14,10 +14,12 @@ class SortApplicationTests {
 
     @Test
     void contextLoads() {
-        int[] array = {4, 67, 10, 5, 8, 3};
+        int[] array = {4, 67, 10, 5, 8, 3, 7};
         int[] selectSort = selectSort(array);
         int[] insertSort = insertSort(array);
         int[] bubbleSort = bubbleSort(array);
+        int[] mergeSort = array.clone();
+        mergeSort(mergeSort);
 
         System.out.println("선택");
         for (int i : selectSort) {
@@ -31,6 +33,11 @@ class SortApplicationTests {
 
         System.out.println("버블");
         for (int i : bubbleSort) {
+            System.out.println(i);
+        }
+
+        System.out.println("합병");
+        for (int i : mergeSort) {
             System.out.println(i);
         }
     }
@@ -84,5 +91,37 @@ class SortApplicationTests {
             }
         }
         return array;
+    }
+
+    private void mergeSort(int[] array) {
+        int median = array.length/2;
+
+        if (median != 0) {
+            int[] temp1 = new int[median], temp2 = new int[array.length-median];
+
+            System.arraycopy(array, 0, temp1, 0, median);
+            System.arraycopy(array, median, temp2, median - median, array.length - median);
+
+            mergeSort(temp1);
+            mergeSort(temp2);
+            merge(temp1, temp2, array);
+        }
+    }
+
+    private void merge(int[] a, int[] b, int[] result) {
+        int delemeter = 0;
+
+        for (int i : a) {
+            for (int j : b) {
+                if (i < j) {
+                    result[delemeter] = i;
+                    delemeter++;
+                    break;
+                } else {
+                    result[delemeter] = j;
+                    delemeter++;
+                }
+            }
+        }
     }
 }
